@@ -1,9 +1,10 @@
 Shader "Custom/Point Surface"
 {
-    Properties {
-		_Smoothness ("Smoothness", Range(0,1)) = 0.5
-	}
-    
+    Properties
+    {
+        _Smoothness ("Smoothness", Range(0,1)) = 0.5
+    }
+
     SubShader
     {
         CGPROGRAM
@@ -14,14 +15,14 @@ Shader "Custom/Point Surface"
         {
             float3 worldPos;
         };
-        
+
         float _Smoothness;
 
-		void ConfigureSurface (Input input, inout SurfaceOutputStandard surface) {
-			surface.Albedo.rg = input.worldPos.xy * 0.5 + 0.5;
-			surface.Smoothness = _Smoothness;
-		}
-        
+        void ConfigureSurface(Input input, inout SurfaceOutputStandard surface)
+        {
+            surface.Albedo.rg = input.worldPos.xy * 0.5 + 0.5;
+            surface.Smoothness = _Smoothness;
+        }
         ENDCG
     }
 
