@@ -1,38 +1,26 @@
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour {
-    private static GameManager _instance;
+public class GameManager {
+    private static GameManager _instance = new GameManager();
 
-    public static GameManager Instance {
-        get { return _instance; }
+    public static GameManager Get() {
+        if (_instance == null) _instance = new GameManager();
+        return _instance;
     }
-
-
-    private void Awake() {
-        if (_instance != null && _instance != this) {
-            Destroy(this.gameObject);
-        }
-        else {
-            _instance = this;
-        }
-    }
-
-    private void Start() {
-        
-    }
-
-    public List<Vector3> line { get; private set; }
-
+    
     // subscription stuff
     public delegate void LineChangeHandler(List<Vector3> newState);
 
     public event LineChangeHandler OnLineChange;
+    
+    public List<Vector3> line { get; private set; }
 
     public void SetLine(List<Vector3> newLine) {
         OnLineChange?.Invoke(newLine);
         line = newLine;
-        Debug.Log($"State changed to {newLine}");
+        Debug.Log($"Line has been changed!");
     }
 }

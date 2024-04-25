@@ -7,7 +7,7 @@ public class Graph : MonoBehaviour {
     [SerializeField] Transform pointPrefab;
     [SerializeField, Range(10, 100)] int resolution = 10;
 
-    public List<Vector3> pointPos { get; } = new List<Vector3>();
+    public List<Vector3> lineData { get; } = new List<Vector3>();
     private GameManager gm;
 
     void Awake() {
@@ -22,11 +22,12 @@ public class Graph : MonoBehaviour {
             point.localPosition = position;
             point.localScale = scale;
             point.SetParent(transform, false);
-            pointPos.Add(position);
+            lineData.Add(position);
         }
     }
 
     private void Start() {
-        gm = GameManager.Instance;
+        gm = GameManager.Get();
+        gm.SetLine(lineData);
     }
 }

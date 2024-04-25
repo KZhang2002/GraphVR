@@ -2,15 +2,19 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static Unity.Mathematics.math;
 
 public class Platform : MonoBehaviour {
     private GameManager gm;
     private List<Vector3> lineData;
     private Boolean moveFlag = false;
-    [SerializeField] private float speed = 1f;
+    private int linePointInd = 0;
+    [SerializeField] private float graphScaleFactor = 30f;
+    //[SerializeField] private float graphYOffset = 30f;
+    [SerializeField] private float speed = 5f;
     
     void Awake() {
-        gm = GameManager.Instance;
+        gm = GameManager.Get();
     }
 
     // IEnumerator StartLift() {
@@ -25,20 +29,21 @@ public class Platform : MonoBehaviour {
     void Update() {
         if (moveFlag) {
             var step =  speed * Time.deltaTime;
-            int i = 0;
             bool lineTraversed = false;
             //Vector3 point in lineData)
-            while(!lineTraversed) {
-                var point = lineData[i];
+            if(!lineTraversed && linePointInd < lineData.Count) {
+                var point = lineData[linePointInd];
                 Vector3 target = transform.position;
-                target.y = point.y;
+                target.x = point.x * graphScaleFactor;
+                target.y = point.y * graphScaleFactor + graphScaleFactor;
                 transform.position = Vector3.MoveTowards(transform.position, target, step);
                 if (transform.position == target) {
-                    if (i == lineData.Count) {
+                    if (linePointInd == lineData.Count) {
                         lineTraversed = true;
                         moveFlag = false;
                     }
-                    i++;
+                    Debug.Log("Changed goal point");
+                    linePointInd++;
                 }
             }
         }
@@ -46,6 +51,7 @@ public class Platform : MonoBehaviour {
 
     private void SetLineData(List<Vector3> ld) {
         lineData = ld;
+        linePointInd = 0;
         moveFlag = true;
     }
     
