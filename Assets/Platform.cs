@@ -7,21 +7,23 @@ using static Unity.Mathematics.math;
 public class Platform : MonoBehaviour {
     private GameManager gm;
     private List<Vector3> lineData;
-    public Boolean moveFlag = false;
+    private Boolean moveFlag = false;
     private int linePointInd = 0;
     [SerializeField] private float graphScaleFactor = 30f;
     //[SerializeField] private float graphYOffset = 30f;
     [SerializeField] private float speed = 5f;
-    public Vector3 offSet { get; private set; }
     
     void Awake() {
         gm = GameManager.Get();
     }
 
-    IEnumerator StartLift() {
-        yield return new WaitForSeconds(3);
-        RestartRide();
-    }
+    // IEnumerator StartLift() {
+    //     yield return new WaitForSeconds(5);
+    //     foreach (Vector3 point in lineData) {
+    //         yield return new WaitForSeconds(0.2f);
+    //         
+    //     }
+    // }
 
     // Update is called once per frame
     void Update() {
@@ -33,17 +35,14 @@ public class Platform : MonoBehaviour {
                 var point = lineData[linePointInd];
                 Vector3 target = transform.position;
                 target.x = point.x * graphScaleFactor;
-                target.y = point.y * graphScaleFactor;
-                target.z = point.z - 60;
-                Vector3 newPos = Vector3.MoveTowards(transform.position, target, step);
-                offSet = newPos - transform.position;
-                transform.position = newPos;
+                target.y = point.y * graphScaleFactor + graphScaleFactor;
+                transform.position = Vector3.MoveTowards(transform.position, target, step);
                 if (transform.position == target) {
                     if (linePointInd == lineData.Count) {
                         lineTraversed = true;
                         moveFlag = false;
                     }
-                    //Debug.Log("Changed goal point");
+                    Debug.Log("Changed goal point");
                     linePointInd++;
                 }
             }
@@ -53,7 +52,7 @@ public class Platform : MonoBehaviour {
     private void SetLineData(List<Vector3> ld) {
         lineData = ld;
         linePointInd = 0;
-        StartCoroutine(StartLift());
+        moveFlag = true;
     }
     
     private void OnEnable() {
@@ -66,10 +65,5 @@ public class Platform : MonoBehaviour {
 
     private void HandleLineChange(List<Vector3> ld) {
         SetLineData(ld);
-    }
-
-    public void RestartRide() {
-        linePointInd = 0;
-        moveFlag = true;
     }
 }

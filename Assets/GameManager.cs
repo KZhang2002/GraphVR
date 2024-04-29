@@ -21,6 +21,6 @@ public class GameManager {
     public void SetLine(List<Vector3> newLine) {
         OnLineChange?.Invoke(newLine);
         line = newLine;
-        // Debug.Log($"Line has been changed!");
+        Debug.Log($"Line has been changed!");
     }
 }
