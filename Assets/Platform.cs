@@ -35,7 +35,7 @@ public class Platform : MonoBehaviour {
                 var point = lineData[linePointInd];
                 Vector3 target = transform.position;
                 target.x = point.x * graphScaleFactor;
-                target.y = point.y * graphScaleFactor + graphScaleFactor;
+                target.y = point.y * graphScaleFactor;
                 transform.position = Vector3.MoveTowards(transform.position, target, step);
                 if (transform.position == target) {
                     if (linePointInd == lineData.Count) {

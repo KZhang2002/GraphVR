@@ -21,7 +21,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Point Material
-  m_Shader: {fileID: -6465566751694194690, guid: 635ab4372f0bf4b4ba07889be9a63f59, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: b9418b5c7f7373b41a7147860a234845, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
